@@ -24,3 +24,12 @@ class Category(models.Model):
     decrp = models.CharField(max_length=100, verbose_name='описание')
     created_at = models.IntegerField(verbose_name='создан', null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'категория'
+        verbose_name = 'категории'
+
+
+
