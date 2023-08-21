@@ -10,10 +10,10 @@ def index(request):
     }
     return render(request, 'database/index.html', context)
 
-def categories(request):
+def categories(request, pk):
     context = {
-        'object_list': Product.objects.all(),
-        'title': 'Наши продукты'
+        'object_list': Product.objects.filter(id=pk),
+        'title': 'Продукт'
     }
     return render(request, 'database/categories.html', context)
 

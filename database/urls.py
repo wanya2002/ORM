@@ -7,5 +7,5 @@ app_name = DatabaseConfig.name
 
 urlpatterns = [
     path('', index, name='index'),
-    path('categories/', categories, name='categories'),
+    path('<int:pk>/categories/', categories, name='categories'),
 ]

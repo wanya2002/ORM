@@ -7,21 +7,25 @@
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
+                    <a class="p-2 btn btn-outline-primary"
+                       href="{% url 'database:categories' object.pk %}">Вывести в отдельном окне </a>
                     <img class="card-img-top"
                     src="{{ object.img|mymedia }}">
                 </div>
-                <div class="card-body">
 
+                <div class="card-body">
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li>{{ object.name }}</li>
                         <p></p>
                         <li>{{ object.decrp|truncatechars:100 }}</li>
-                    </ul>
 
+                    </ul>
                 </div>
+
             </div>
         </div>
     {% endfor %}
     </div>
 
 {% endblock %}
+
