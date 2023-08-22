@@ -12,7 +12,7 @@ def index(request):
 
 def categories(request, pk):
     context = {
-        'object_list': Product.objects.filter(id=pk),
+        'object': Product.objects.get(id=pk),
         'title': 'Продукт'
     }
     return render(request, 'database/categories.html', context)
