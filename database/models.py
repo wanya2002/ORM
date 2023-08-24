@@ -15,7 +15,7 @@ class Product(models.Model):
 
     class Meta:
         verbose_name = 'продукт'
-        verbose_name = 'продукты'
+        verbose_name_plural = 'продукты'
 
 
 class Category(models.Model):
@@ -29,7 +29,24 @@ class Category(models.Model):
 
     class Meta:
         verbose_name = 'категория'
-        verbose_name = 'категории'
+        verbose_name_plural = 'категории'
 
+
+class Blog(models.Model):
+
+    title = models.CharField(max_length=100, verbose_name='заголовок')
+    slug = models.CharField(max_length=100, verbose_name='адрес')
+    content = models.TextField(verbose_name='содержимое')
+    prv = models.ImageField(upload_to='products/', verbose_name='изображение', null=True, blank=True)
+    data = models.DateTimeField(verbose_name='дата')
+    publish = models.BooleanField(verbose_name='active')
+    count = models.IntegerField(verbose_name='counter')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'статья'
+        verbose_name_plural = 'статьи'
 
 

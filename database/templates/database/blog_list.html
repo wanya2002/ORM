@@ -1,0 +1,37 @@
+{% extends 'database/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+<a class="p-2 btn btn-outline-primary"
+   href="{% url 'database:create' %}">Create</a>
+<div class="row text-center">
+
+    {% for object in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                <a class="p-2 btn btn-outline-primary"
+                       href="{% url 'database:view' object.pk %}">View</a>
+                <a class="p-2 btn btn-outline-primary"
+                       href="{% url 'database:edit' object.pk %}">Edit</a>
+                <a class="p-2 btn btn-outline-primary"
+                       href="{% url 'database:delete' object.pk %}">Delete</a>
+
+                </div>
+
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>{{ object.title }}</li>
+                        <p></p>
+                        <li>{{ object.content }}</li>
+
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}
