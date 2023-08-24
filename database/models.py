@@ -35,12 +35,12 @@ class Category(models.Model):
 class Blog(models.Model):
 
     title = models.CharField(max_length=100, verbose_name='заголовок')
-    slug = models.CharField(max_length=100, verbose_name='адрес')
+    slug = models.CharField(max_length=150, verbose_name='slug', null=True, blank=True)
     content = models.TextField(verbose_name='содержимое')
     prv = models.ImageField(upload_to='products/', verbose_name='изображение', null=True, blank=True)
     data = models.DateTimeField(verbose_name='дата')
-    publish = models.BooleanField(verbose_name='active')
-    count = models.IntegerField(verbose_name='counter')
+    publish = models.BooleanField(default=True, verbose_name='Опубликовано')
+    count = models.IntegerField(default=0, verbose_name='просмотры')
 
     def __str__(self):
         return self.title
