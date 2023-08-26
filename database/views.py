@@ -1,9 +1,11 @@
+from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
 
-from database.models import Product, Blog
+from database.form import ProductForm, VersionForm
+from database.models import Product, Blog, Version
 
 
 def index(request):
@@ -14,28 +16,52 @@ def index(request):
     return render(request, 'database/index.html', context)
 
 
-#def products(request):
-#    context = {
-#        'object_list': Product.objects.all(),
-#        'title': 'Наши продукты'
-#    }
-#    return render(request, 'database/products.html', context)
-
-
 class ProductsListView(ListView):
     model = Product
 
 
-#def categories(request, pk):
-#    context = {
-#        'object': Product.objects.get(id=pk),
-#        'title': 'Продукт'
-#    }
-#    return render(request, 'database/product_detail.html', context)
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('database:products')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+#    success_url = reverse_lazy('database:products')
+
+    def get_success_url(self):
+        return reverse('database:edit', args=[self.kwargs.get('pk')])
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        if self.request.method == 'POST':
+           context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            context_data['formset'] = VersionFormset(instance=self.object)
+        return context_data
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        self.object = form.save()
+
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+        return super().form_valid(form)
+
 
 
 class ProductsDetailView(DetailView):
     model = Product
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('database:products')
 
 
 class BlogCreateView(CreateView):
@@ -43,13 +69,6 @@ class BlogCreateView(CreateView):
     fields = ('title', 'slug', 'content', 'prv', 'data', 'publish', 'count',)
     success_url = reverse_lazy('database:index')
 
-    def form_valid(self, form):
-        if form.is_valid():
-            new_pub = form.save()
-            new_pub.slug = slugify(new_pub.title)
-            new_pub.save()
-
-        return super().form_valid(form)
 
 
 class BlogUpdateView(UpdateView):

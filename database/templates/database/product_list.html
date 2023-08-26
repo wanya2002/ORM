@@ -2,13 +2,21 @@
 {% load my_tags %}
 
 {% block content %}
+<a class="p-2 btn btn-outline-primary"
+   href="{% url 'database:create' %}">Добавить товар</a>
+<p></p>
 <div class="row text-center">
     {% for object in object_list %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
                     <a class="p-2 btn btn-outline-primary"
-                       href="{% url 'database:categories' object.pk %}">Вывести в отдельном окне </a>
+                       href="{% url 'database:categories' object.pk %}">View</a>
+                    <a class="p-2 btn btn-outline-primary"
+                       href="{% url 'database:edit' object.pk %}">Edit</a>
+                    <a class="p-2 btn btn-outline-primary"
+                       href="{% url 'database:delete' object.pk %}">Delete</a>
+                    <p></p>
                     <img class="card-img-top"
                     src="{{ object.img|mymedia }}">
                 </div>
@@ -26,6 +34,6 @@
             </div>
         </div>
     {% endfor %}
-    </div>
+</div>
 
 {% endblock %}
