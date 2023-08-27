@@ -32,7 +32,10 @@
                         <p></p>
                         <li>{{ object.decrp|truncatechars:100 }}</li>
                         <p></p>
-                        <li>{{ object.img }}</li>
+                        <li>
+                            <img class="card-img-top"
+                            src="/media/{{ object.img }}">
+                        </li>
                         <p></p>
                         <li>{{ object.category }}</li>
                         <p></p>

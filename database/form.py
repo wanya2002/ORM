@@ -18,17 +18,28 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         fields = '__all__'
 
     def clean_name(self):
-        cleaned_data = self.cleaned_data['name']
-
+        cleaned_data_name = self.cleaned_data['name']
 
         err = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно',
                'обман', 'полиция', 'радар']
 
         for el in err:
-            if cleaned_data == el:
+            if cleaned_data_name == el:
                raise forms.ValidationError('Ошибка, связанная с названием продукта')
 
-        return cleaned_data
+        return cleaned_data_name
+
+
+    def clean_decrp(self):
+        cleaned_data_decrp = self.cleaned_data['decrp']
+
+        err = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно',
+               'обман', 'полиция', 'радар']
+
+        if cleaned_data_decrp in err:
+               raise forms.ValidationError('Ошибка, связанная с описанием продукта продукта')
+
+        return cleaned_data_decrp
 
 
 class VersionForm(StyleFormMixin, forms.ModelForm):
