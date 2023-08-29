@@ -1,11 +1,25 @@
 from django.db import models
 
+
+class Category(models.Model):
+
+    cat = models.CharField(max_length=100, verbose_name='категория')
+    decrp = models.CharField(max_length=100, verbose_name='описание')
+    created_at = models.IntegerField(verbose_name='создан', null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.cat}'
+
+    class Meta:
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
+
 class Product(models.Model):
 
     name = models.CharField(max_length=100, verbose_name='название')
     decrp = models.CharField(max_length=100, verbose_name='описание')
     img = models.ImageField(upload_to='database/', verbose_name='изображение', null=True, blank=True)
-    cat = models.CharField(max_length=100, verbose_name='категория')
+    cat = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.IntegerField(verbose_name='цена')
     data = models.DateTimeField(verbose_name='дата')
     data_chg = models.DateTimeField(verbose_name='дата последнего изменения')
@@ -33,18 +47,7 @@ class Version(models.Model):
         verbose_name_plural = 'версии'
 
 
-class Category(models.Model):
 
-    cat = models.ForeignKey(Product, on_delete=models.CASCADE)
-    decrp = models.CharField(max_length=100, verbose_name='описание')
-    created_at = models.IntegerField(verbose_name='создан', null=True, blank=True)
-
-    def __str__(self):
-        return f'{self.cat}'
-
-    class Meta:
-        verbose_name = 'категория'
-        verbose_name_plural = 'категории'
 
 
 class Blog(models.Model):
